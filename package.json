@@ -20,9 +20,14 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@mailchimp/mailchimp_transactional": "^1.0.59",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.20",
+    "@types/mailchimp__mailchimp_transactional": "^1.0.10",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
