@@ -16,22 +16,29 @@ export class EmailService {
         }
     }
 
-    private async arrayFromObject(content) {
+    private async arrayFromObject(content: Record<string, any>) {
         const val = [];
         for (const key in content) {
-            val.push({ name: key, content: content[key] });
+            if (content.hasOwnProperty(key)) {
+                val.push({ name: key, content: content[key] });
+            }
         }
         return val;
     }
 
     private async sendMailchimpTemplate(template_name: string, message: any) {
         const factory = Mailchimp(this.mailchimpApiKey);
-        const response = await factory.messages.sendTemplate({
-            template_name,
-            template_content: [{ name: 'example', content: 'example content' }],
-            message,
-        });
-        return response;
+        try {
+            const response = await factory.messages.sendTemplate({
+                template_name,
+                template_content: [{ name: 'example', content: 'example content' }],
+                message,
+            });
+            return response;
+        } catch (error) {
+            console.error('Error al enviar el correo con Mailchimp:', error);
+            throw error;
+        }
     }
 
     async sendB2CApprovedEmail(payload: NotificationPayloadDTO) {
@@ -62,7 +69,13 @@ export class EmailService {
         // Enviar usando la plantilla de Mailchimp 'B2Capproved'
         const templateName = 'B2Capproved';
 
-        const result = await this.sendMailchimpTemplate(templateName, message);
-        console.log('Email enviado:', result);
+        try {
+            const result = await this.sendMailchimpTemplate(templateName, message);
+            return result;
+        } catch (error) {
+            // Registrar el error y relanzarlo
+            console.error('Error en sendB2CApprovedEmail:', error);
+            throw error;
+        }
     }
 }
