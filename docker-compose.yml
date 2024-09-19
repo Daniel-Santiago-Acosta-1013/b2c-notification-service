@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      BASIC_AUTH_USERNAME: ${BASIC_AUTH_USERNAME}
+      BASIC_AUTH_PASSWORD: ${BASIC_AUTH_PASSWORD}
+      MAILCHIMP_KEY: ${MAILCHIMP_KEY}
+      MAILCHIMP_PASSWORD: ${MAILCHIMP_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    restart: always
